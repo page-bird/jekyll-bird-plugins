@@ -9,7 +9,7 @@ module PageBirdGem
 
     private
       def self.endpoint config
-        "http://localhost:3000/api/w/" + config["website"].to_s
+        "https://www.page-bird.com/api/w/" + config["website"].to_s
       end
   end
 end
