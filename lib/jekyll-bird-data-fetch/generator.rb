@@ -9,6 +9,8 @@ module JekyllBirdDataFetch
       warn "No config for Page Bird Data Fetch".yellow && return if !config
 
       page_bird_data_fetch = Importer.call(config: config)
+      site.data["bird"] = page_bird_data_fetch
+
       @_file_creator ||= FileCreator.new(data: page_bird_data_fetch).call
     end
   end
