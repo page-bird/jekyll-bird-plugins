@@ -1,7 +1,7 @@
 require 'json'
 require 'open-uri'
 
-module PageBirdGem
+module JekyllBirdDataFetch
   class Importer
     def self.call(config: config)
       @_data ||= JSON.load(open(endpoint(config)))

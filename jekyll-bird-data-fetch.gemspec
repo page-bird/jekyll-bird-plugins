@@ -1,11 +1,11 @@
 
 lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "PageBirdGem/version"
+require "jekyll-bird-data-fetch/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "PageBirdGem"
-  spec.version       = PageBirdGem::VERSION
+  spec.name          = "jekyll-bird-data-fetch"
+  spec.version       = JekyllBirdDataFetch::VERSION
   spec.authors       = ["Alejo Rivera"]
   spec.email         = ["alejo@juntostudio.com"]
 

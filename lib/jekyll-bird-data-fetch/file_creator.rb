@@ -1,4 +1,4 @@
-module PageBirdGem
+module JekyllBirdDataFetch
   class FileCreator
     attr_reader :data
 

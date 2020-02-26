@@ -1,6 +1,6 @@
 require "jekyll"
 
-module PageBirdGem
+module JekyllBirdDataFetch
   class PageBirdGenerator < Jekyll::Generator
     safe true
 
