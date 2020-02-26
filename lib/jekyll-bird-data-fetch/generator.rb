@@ -5,11 +5,11 @@ module JekyllBirdDataFetch
     safe true
 
     def generate(site)
-      config = site.config['page_bird_owl']
-      warn "No config for Page Bird Owl".yellow && return if !config
+      config = site.config['page_bird_data_fetch']
+      warn "No config for Page Bird Data Fetch".yellow && return if !config
 
-      page_bird_owl_data = Importer.call(config: config)
-      @_file_creator ||= FileCreator.new(data: page_bird_owl_data).call
+      page_bird_data_fetch = Importer.call(config: config)
+      @_file_creator ||= FileCreator.new(data: page_bird_data_fetch).call
     end
   end
 end

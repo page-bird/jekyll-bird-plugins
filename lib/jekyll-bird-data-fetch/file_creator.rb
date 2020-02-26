@@ -8,7 +8,7 @@ module JekyllBirdDataFetch
 
     def call
       FileUtils.mkdir_p '_data/'
-      File.open("_data/owl.yaml", 'w') do |file|
+      File.open("_data/bird.yaml", 'w') do |file|
         file.write(data.to_yaml)
       end
       return true
