@@ -3,13 +3,14 @@ require 'open-uri'
 
 module JekyllBirdDataFetch
   class Importer
-    def self.call(config: config)
-      @_data ||= JSON.load(open(endpoint(config)))
+    def self.call(jekyll_config)
+      @_data ||= JSON.load(open(endpoint(jekyll_config)))
     end
 
     private
-      def self.endpoint config
-        "https://www.page-bird.com/api/w/" + config["website"].to_s
+      def self.endpoint jekyll_config
+        host = jekyll_config["api_host"] || "https://www.page-bird.com"
+        host + "/api/w/" + jekyll_config["website"].to_s
       end
   end
 end
