@@ -1,4 +1,4 @@
-module JekyllBirdDataFetch
+module JekyllBirdPlugins
   class FileCreator
     attr_reader :data
 

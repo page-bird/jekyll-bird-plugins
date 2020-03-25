@@ -10,10 +10,11 @@ module Jekyll
     safe true
 
     def generate(site)
-      warn "✏️ Bird started BlogGenerator...".green
-      if site.layouts.key? "pb_blog_post"
+      records = site.data["bird"]["blog"] && site.data["bird"]["blog"]["published_posts"]
+
+      if site.layouts.key?("pb_blog_post") && records
+        warn "✏️ Bird started BlogGenerator...".green
         dir = "blog"
-        records = site.data["bird"]["blog"]["published_posts"]
         records.each do |record|
           site.pages << BlogPostPage.new(site, site.source, dir, record)
         end

@@ -1,7 +1,7 @@
 require 'json'
 require 'open-uri'
 
-module JekyllBirdDataFetch
+module JekyllBirdPlugins
   class Importer
     def self.call jekyll_config
       @_data ||= JSON.load(open(endpoint(jekyll_config)))
