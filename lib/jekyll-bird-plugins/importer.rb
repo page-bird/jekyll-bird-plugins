@@ -8,8 +8,10 @@ module JekyllBirdPlugins
     end
 
     def self.endpoint jekyll_config
-      host = jekyll_config["api_host"] || "https://www.page-bird.com"
-      host + "/api/w/" + jekyll_config["website_id"].to_s
+      base = jekyll_config["api_host"] || "https://www.page-bird.com"
+      host = base + "/api/w/" + jekyll_config["website_id"].to_s
+      warn "Bird Fetching Data from: #{ host }".green
+      return host
     end
   end
 end

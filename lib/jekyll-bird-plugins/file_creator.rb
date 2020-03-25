@@ -7,6 +7,8 @@ module JekyllBirdPlugins
     end
 
     def call
+      warn "Bird fetched data successfully 🎺".green
+      
       FileUtils.mkdir_p '_data/'
       File.open("_data/bird.yaml", 'w') do |file|
         file.write(data.to_yaml)
