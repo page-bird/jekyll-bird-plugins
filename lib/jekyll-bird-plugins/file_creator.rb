@@ -7,8 +7,8 @@ module JekyllBirdPlugins
     end
 
     def call
-      warn "Bird fetched data successfully 🎺".green
-      
+      warn "🌳 Bird fetched data successfully for website: #{ data['name'] } (#{ data['url'] }) 🌳".green
+
       FileUtils.mkdir_p '_data/'
       File.open("_data/bird.yaml", 'w') do |file|
         file.write(data.to_yaml)

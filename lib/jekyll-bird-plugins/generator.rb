@@ -8,6 +8,7 @@ module JekyllBirdPlugins
       jekyll_config = site.config['page_bird']
       warn "No config for Page Bird Data Fetch".yellow && return if !jekyll_config || !jekyll_config['website_id']
 
+
       page_bird_data_fetch = Importer.call(jekyll_config)
       site.data["bird"] = page_bird_data_fetch
 

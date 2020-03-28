@@ -4,7 +4,7 @@ module Jekyll
 
     def generate(site)
       if records = site.data["bird"]["blog"] && site.data["bird"]["blog"]["active"] && site.data["bird"]["blog"]["published_posts"]
-        warn "✏️ Bird started BlogGenerator...".green
+        warn "Bird started BlogGenerator...".cyan
         dir = "blog"
 
         site.pages << BlogIndexPage.new(site, site.source, dir)
@@ -30,9 +30,10 @@ module Jekyll
 
       process(@name)
       read_yaml(@path, "")
-      data["title"] = "Blog"
+      site_name = site.data["bird"]["name"]
+      data["title"] = site_name + "| Blog"
 
-      warn "✏️ Bird generated a BlogIndex".green
+      warn "Bird generated a BlogIndex".cyan
     end
   end
 
@@ -50,10 +51,13 @@ module Jekyll
 
       process(@name)
       read_yaml(@path, "")
-      data["title"] = record["slug"]
+      data["title"] = record["title"]
+      data["description"] = record["preview_content"]
+      data["image_url"] = record["preview_img_url"]
+      data["date"] = record["published_at"]
       data["resource"] = record
 
-      warn "✏️ Bird generated a BlogPost: #{ self.data['title'] }".green
+      warn "Bird generated a BlogPost: #{ self.data['title'] }".cyan
     end
   end
 end
