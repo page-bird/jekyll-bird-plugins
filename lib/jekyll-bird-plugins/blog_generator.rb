@@ -1,3 +1,5 @@
+require "pry"
+
 module Jekyll
   class BlogGenerator < Generator
     safe true
@@ -7,17 +9,38 @@ module Jekyll
         warn "Bird starting BlogGenerator...".cyan
         dir = "blog"
 
-        site.pages << BlogIndexPage.new(site, site.source, dir)
-
         records.each do |record|
           site.pages << BlogPostPage.new(site, site.source, dir, record)
+        end
+
+        site.pages << BlogIndexPage.new(site, site.source, dir, original: true)
+
+        posts_per_page = 8
+        index_page = site.pages.detect { |p| p.class.name == "Jekyll::BlogIndexPage" }
+        post_pages = site.pages.select { |p| p.class.name == "Jekyll::BlogPostPage" }
+
+        paginate(site, index_page: index_page, post_pages: post_pages, dir: dir, posts_per_page: posts_per_page)
+      end
+    end
+
+    def paginate(site, index_page:, post_pages:, dir:, posts_per_page:)
+      pages = Pager.calculate_pages(post_pages, posts_per_page)
+      (1..pages).each do |num_page|
+        pager = Pager.new(site, num_page, post_pages, pages, posts_per_page)
+        if num_page > 1
+          newpage = BlogIndexPage.new(site, site.source, dir)
+          newpage.pager = pager
+          newpage.dir = Pager.paginate_path(site, num_page)
+          site.pages << newpage
+        else
+          index_page.pager = pager
         end
       end
     end
   end
 
   class BlogIndexPage < Page
-    def initialize(site, base, dir)
+    def initialize(site, base, dir, original: false)
       @site = site
       @base = base
       @dir = dir
@@ -31,9 +54,11 @@ module Jekyll
       process(@name)
       read_yaml(@path, "")
       site_name = site.data["bird"]["name"]
-      data["title"] = site_name + "| Blog"
+      data["title"] = site_name + " | Blog"
 
-      warn "    Bird generated a BlogIndex".cyan
+      if original
+        warn "  Bird generated a BlogIndex".cyan
+      end
     end
   end
 
@@ -57,7 +82,7 @@ module Jekyll
       data["date"] = record["published_at"]
       data["resource"] = record
 
-      warn "    Bird generated a BlogPost: #{ self.data['title'] }".cyan
+      warn "  Bird generated a BlogPost: #{ self.data['title'] }".cyan
     end
   end
 end
