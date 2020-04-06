@@ -7,17 +7,19 @@ module Jekyll
         warn "Bird starting BlogGenerator...".cyan
         dir = "blog"
 
-        site.pages << BlogIndexPage.new(site, site.source, dir)
-
         records.each do |record|
           site.pages << BlogPostPage.new(site, site.source, dir, record)
         end
+
+        site.pages << BlogIndexPage.new(site, site.source, dir, original: true)
+
+        BlogPaginate.new(site, dir)
       end
     end
   end
 
   class BlogIndexPage < Page
-    def initialize(site, base, dir)
+    def initialize(site, base, dir, original: false)
       @site = site
       @base = base
       @dir = dir
@@ -31,9 +33,11 @@ module Jekyll
       process(@name)
       read_yaml(@path, "")
       site_name = site.data["bird"]["name"]
-      data["title"] = site_name + "| Blog"
+      data["title"] = site_name + " | Blog"
 
-      warn "    Bird generated a BlogIndex".cyan
+      if original
+        warn "  Bird generated a BlogIndex".cyan
+      end
     end
   end
 
@@ -57,7 +61,7 @@ module Jekyll
       data["date"] = record["published_at"]
       data["resource"] = record
 
-      warn "    Bird generated a BlogPost: #{ self.data['title'] }".cyan
+      warn "  Bird generated a BlogPost: #{ self.data['title'] }".cyan
     end
   end
 end
