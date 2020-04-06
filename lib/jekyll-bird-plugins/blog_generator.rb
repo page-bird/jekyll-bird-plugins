@@ -1,5 +1,3 @@
-require "pry"
-
 module Jekyll
   class BlogGenerator < Generator
     safe true
@@ -15,26 +13,7 @@ module Jekyll
 
         site.pages << BlogIndexPage.new(site, site.source, dir, original: true)
 
-        posts_per_page = 8
-        index_page = site.pages.detect { |p| p.class.name == "Jekyll::BlogIndexPage" }
-        post_pages = site.pages.select { |p| p.class.name == "Jekyll::BlogPostPage" }
-
-        paginate(site, index_page: index_page, post_pages: post_pages, dir: dir, posts_per_page: posts_per_page)
-      end
-    end
-
-    def paginate(site, index_page:, post_pages:, dir:, posts_per_page:)
-      pages = Pager.calculate_pages(post_pages, posts_per_page)
-      (1..pages).each do |num_page|
-        pager = Pager.new(site, num_page, post_pages, pages, posts_per_page)
-        if num_page > 1
-          newpage = BlogIndexPage.new(site, site.source, dir)
-          newpage.pager = pager
-          newpage.dir = Pager.paginate_path(site, num_page)
-          site.pages << newpage
-        else
-          index_page.pager = pager
-        end
+        BlogPaginate.new(site, dir)
       end
     end
   end
