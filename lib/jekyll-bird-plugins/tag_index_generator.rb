@@ -8,16 +8,20 @@ module Jekyll
 
         records.each do |record|
           dir = "blog/tags/" + record['name']
-          site.pages << TagIndexPage.new(site, site.source, dir, record, original: true)
+          tag_index_page = TagIndexPage.new(site, site.source, dir, record: record, original: true)
+          site.pages << tag_index_page
+          Paginate.new(site, dir, index_page: tag_index_page, post_pages: post_pages_for_tag_name(site, record['name']), record: record)
         end
-
-        # BlogPaginate.new(site, dir)
       end
+    end
+
+    def post_pages_for_tag_name(site, tag_name)
+      site.pages.select { |p| p.class.name == "Jekyll::BlogPostPage" }
     end
   end
 
   class TagIndexPage < Page
-    def initialize(site, base, dir, record, original: false)
+    def initialize(site, base, dir, record:, **options)
       @site = site
       @base = base
       @dir = dir
@@ -34,7 +38,7 @@ module Jekyll
       data["title"] = record['name'].capitalize + " | Blog"
       data["resource"] = record
 
-      if original
+      if options[:original]
         warn "  Bird generated a TagIndex for #{ record['name'] }".cyan
       end
     end

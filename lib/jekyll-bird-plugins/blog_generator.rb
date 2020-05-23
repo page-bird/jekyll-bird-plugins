@@ -7,19 +7,23 @@ module Jekyll
         warn "Bird starting BlogGenerator...".cyan
         dir = "blog"
 
+        post_pages = []
         records.each do |record|
-          site.pages << BlogPostPage.new(site, site.source, dir, record)
+          post_page = BlogPostPage.new(site, site.source, dir, record)
+          post_pages << post_page
+          site.pages << post_page
         end
 
-        site.pages << BlogIndexPage.new(site, site.source, dir, original: true)
+        index_page = BlogIndexPage.new(site, site.source, dir, original: true)
+        site.pages << index_page
 
-        BlogPaginate.new(site, dir)
+        Paginate.new(site, dir, index_page: index_page, post_pages: post_pages)
       end
     end
   end
 
   class BlogIndexPage < Page
-    def initialize(site, base, dir, original: false)
+    def initialize(site, base, dir, original: false, **options)
       @site = site
       @base = base
       @dir = dir
