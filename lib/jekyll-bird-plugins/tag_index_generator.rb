@@ -16,7 +16,7 @@ module Jekyll
     end
 
     def post_pages_for_tag_name(site, tag_name)
-      site.pages.select { |p| p.class.name == "Jekyll::BlogPostPage" }
+      site.pages.select { |p| p.class.name == "Jekyll::BlogPostPage" && p["tags"] && p["tags"].map { |h| h['name'] }.include?(tag_name) }
     end
   end
 

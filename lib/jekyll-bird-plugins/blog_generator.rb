@@ -63,6 +63,7 @@ module Jekyll
       data["description"] = record["preview_content"]
       data["image_url"] = record["preview_img_url"]
       data["date"] = record["published_at"]
+      data["tags"] = record["tags"]
       data["resource"] = record
 
       warn "  Bird generated a BlogPost: #{ self.data['title'] }".cyan
