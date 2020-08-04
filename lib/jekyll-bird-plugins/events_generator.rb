@@ -3,10 +3,11 @@ module Jekyll
     safe true
 
     def generate(site)
-      if records = site.data["bird"]["events_active"] && site.data["bird"]["events_active"].any?
+      if site.data["bird"]["events_active"] && site.data["bird"]["events_active"].any?
         warn "Bird starting EventsGenerator...".cyan
         dir = "events"
-
+        
+        records = site.data["bird"]["events_active"]
         records.each do |record|
           site.pages << EventPage.new(site, site.source, dir, record)
         end
