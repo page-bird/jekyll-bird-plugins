@@ -36,7 +36,7 @@ module Jekyll
       data["date"] = record["start_at"]
       data["resource"] = record
 
-      warn "  Bird generated a Event: #{ self.data['name'] }".cyan
+      warn "  Bird generated an Event: #{ self.data['title'] }".cyan
     end
   end
 
