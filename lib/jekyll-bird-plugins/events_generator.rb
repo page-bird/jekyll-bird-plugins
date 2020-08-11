@@ -5,14 +5,16 @@ module Jekyll
     def generate(site)
       if site.data["bird"]["events_active"] && site.data["bird"]["events_active"].any?
         warn "Bird starting EventsGenerator...".cyan
-        dir = "events"
+        dir = site.config['page_bird']['events']['index']
         
         records = site.data["bird"]["events_active"]
         records.each do |record|
           site.pages << EventPage.new(site, site.source, dir, record)
         end
 
-        site.pages << EventsIndexPage.new(site, site.source, dir, original: true)
+        if (dir != "events") || !File.exist?(site.in_source_dir("events.html"))
+          site.pages << EventsIndexPage.new(site, site.source, dir, original: true)
+        end
       end
     end
   end
