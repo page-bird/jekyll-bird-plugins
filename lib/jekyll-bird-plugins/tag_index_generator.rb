@@ -7,7 +7,7 @@ module Jekyll
         warn "Bird starting TagIndexGenerator...".cyan
 
         records.each do |record|
-          dir = "blog/tags/" + record['name']
+          dir = "blog/tags/" + record['slug']
           tag_index_page = TagIndexPage.new(site, site.source, dir, record: record, original: true)
           site.pages << tag_index_page
           Paginate.new(site, dir, index_page: tag_index_page, post_pages: post_pages_for_tag_name(site, record['name']), record: record)
